@@ -1,5 +1,6 @@
 import { useDispatch,useSelector } from 'react-redux'
 import { incrementViews,selectFilmsState } from "../utils/slice";
+import Image from 'next/image';
 
 interface RootState {
   films: Film[];
@@ -28,10 +29,11 @@ export default function Card({data} : any ) {
             <div key={index}
               className=" just block rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700">
               <a href="#!">
-                <img
+                <Image
                   className="rounded-t-lg"
                   src={da['Images'][0]}
                   width={300}
+                  height={300}
                   alt="" />
               </a>
               <div className="p-6">

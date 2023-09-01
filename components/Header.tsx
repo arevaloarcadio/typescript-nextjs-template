@@ -4,6 +4,7 @@ import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import Head from "next/head";
 import { signOut, useSession } from 'next-auth/react';
 import Link from 'next/link'
+import Image from 'next/image';
 
 const user = {
   name: 'Tom Cook',
@@ -13,23 +14,32 @@ const user = {
 }
 
 const navigation = [
-  { name: 'Dashboard', href: '/', current: false, requireAuth: true,onClick :null },
-  { name: 'Series', href: '/series', current: false, requireAuth: true,onClick :null },
-  { name: 'Peliculas', href: '/movies', current: false, requireAuth: true,onClick :null },
-  { name: 'Iniciar Sesión', href: '/api/auth/signin', current: false,requireAuth: false,onClick :null },
-  { name: 'Registro', href: '#', current: false, requireAuth: false, onClick :null },
-  { name: 'Cerrar Sesión', href: '#', current: false, requireAuth: true, onClick :signOut }
-]
-
-const userNavigation = [
-  { name: 'Tu Perfil', href: '#', onClick : null },
-  { name: 'Configuración', href: '#', onClick :null },
-  { name: 'Cerrar sesión', href: '#', onClick :signOut },
+  { name: 'Dashboard', href: '/', current: false, requireAuth: true,onClick :fun },
+  { name: 'Series', href: '/series', current: false, requireAuth: true,onClick :fun },
+  { name: 'Peliculas', href: '/movies', current: false, requireAuth: true,onClick :fun },
+  { name: 'Iniciar Sesión', href: '/api/auth/signin', current: false,requireAuth: false,onClick :fun },
+  { name: 'Registro', href: '#', current: false, requireAuth: false, onClick :fun },
+  { name: 'Cerrar Sesión', href: '#', current: false, requireAuth: true, onClick :Out }
 ]
 
 function classNames(...classes : any[]) {
   return classes.filter(Boolean).join(' ')
 }
+
+const userNavigation = [
+  { name: 'Tu Perfil', href: '#', onClick : fun },
+  { name: 'Configuración', href: '#', onClick :fun },
+  { name: 'Cerrar sesión', href: '#', onClick :Out },
+]
+
+function fun() {
+  return 0
+}
+
+function Out() {
+  return signOut
+}
+
 
 function validateAuthItem(itemAuth:boolean,session:any) {
   if(session){
@@ -56,8 +66,10 @@ export default function Header() {
             <div className="flex h-16 items-center justify-between">
               <div className="flex items-center">
                 <div className="flex-shrink-0">
-                  <img
+                  <Image
                     className="h-8 w-8"
+                    width={100}
+                    height={100}
                     src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
                     alt="Your Company"
                   />
@@ -67,7 +79,7 @@ export default function Header() {
                     {navigation.map(item => {
                       if(validateAuthItem(item.requireAuth,session)){
                         return (
-                          <Link legacyBehavior href={item.href}  >
+                          <Link legacyBehavior href={item.href} key={item.name}  >
                             <a
                               key={item.name}
                               href={item.href}
@@ -105,7 +117,7 @@ export default function Header() {
                     <div>
                       <Menu.Button className="flex max-w-xs items-center rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                         <span className="sr-only">Open user menu</span>
-                        <img className="h-8 w-8 rounded-full" src={user.imageUrl} alt="" />
+                        <Image className="h-8 w-8 rounded-full" src={user.imageUrl} alt="" width={100} height={100}/>
                       </Menu.Button>
                     </div>
                     <Transition
@@ -178,7 +190,7 @@ export default function Header() {
               <div className="border-t border-gray-700 pb-3 pt-4">
               <div className="flex items-center px-5">
                 <div className="flex-shrink-0">
-                  <img className="h-10 w-10 rounded-full" src={user.imageUrl} alt="" />
+                  <Image className="h-10 w-10 rounded-full" src={user.imageUrl} alt="" width={100} height={100} />
                 </div>
                 <div className="ml-3">
                   <div className="text-base font-medium leading-none text-white">{user.name}</div>

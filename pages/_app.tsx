@@ -11,7 +11,7 @@ function App({ Component, pageProps: { session, ...pageProps }}: AppProps) {
   const store = useStore();
 
   return( 
-    <PersistGate persistor={store.__persistor} loading={<div>Loading</div>}>
+    <PersistGate persistor={(store as any).__persistor} loading={<div>Loading</div>}>
       <SessionProvider session={session}>
         <AnimatePresence>
             <Component {...pageProps} />

@@ -15,7 +15,7 @@ export default function Home() {
   let seriesMostViews:any = [];
   let moviesMostViews:any = [];
 
-  filmsViews.forEach(film =>{
+  filmsViews.forEach((film:any) =>{
     if(film.data['Type'] == 'series'){
       seriesMostViews.push(film.data)
     }
@@ -24,7 +24,6 @@ export default function Home() {
     }
   })
 
-  console.log(moviesMostViews)
   return (
     <Layout
       title="Inicio"

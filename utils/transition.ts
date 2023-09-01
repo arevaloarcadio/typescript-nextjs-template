@@ -1,4 +1,4 @@
-const PAGE_TRANSITION : any = {
+export default  {
     DURATION: 0.6,
     EASE:[0.83, 0, 0.5 , 1]
 }
