@@ -2,8 +2,8 @@ import { Fragment } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import Head from "next/head";
-import { getSession, signOut, useSession } from 'next-auth/react';
-import { GetServerSideProps, GetServerSidePropsContext } from 'next';
+import { signOut, useSession } from 'next-auth/react';
+import Link from 'next/link'
 
 const user = {
   name: 'Tom Cook',
@@ -13,22 +13,23 @@ const user = {
 }
 
 const navigation = [
-  { name: 'Dashboard', href: '#', current: true,requireAuth: true },
-  { name: 'Iniciar Sesión', href: '/api/auth/signin', current: false,requireAuth: false },
-  { name: 'Registro', href: '#', current: false, requireAuth: false },
+  { name: 'Dashboard', href: '/', current: false, requireAuth: true,onClick :null },
+  { name: 'Series', href: '/series', current: false, requireAuth: true,onClick :null },
+  { name: 'Peliculas', href: '/movies', current: false, requireAuth: true,onClick :null },
+  { name: 'Iniciar Sesión', href: '/api/auth/signin', current: false,requireAuth: false,onClick :null },
+  { name: 'Registro', href: '#', current: false, requireAuth: false, onClick :null },
   { name: 'Cerrar Sesión', href: '#', current: false, requireAuth: true, onClick :signOut }
 ]
 
 const userNavigation = [
-  { name: 'Tu Perfil', href: '#' },
-  { name: 'Configuración', href: '#' },
-  { name: 'Cerrar sesión', href: '#' },
+  { name: 'Tu Perfil', href: '#', onClick : null },
+  { name: 'Configuración', href: '#', onClick :null },
+  { name: 'Cerrar sesión', href: '#', onClick :signOut },
 ]
 
 function classNames(...classes : any[]) {
   return classes.filter(Boolean).join(' ')
 }
-
 
 function validateAuthItem(itemAuth:boolean,session:any) {
   if(session){
@@ -42,8 +43,6 @@ export default function Header() {
 
   const { data: session } = useSession();
   
-  console.log(session)
-
   return (
     <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (
@@ -68,20 +67,22 @@ export default function Header() {
                     {navigation.map(item => {
                       if(validateAuthItem(item.requireAuth,session)){
                         return (
-                          <a
-                            key={item.name}
-                            href={item.href}
-                            onClick={signOut}
-                            className={classNames(
-                              item.current
-                                ? 'bg-gray-900 text-white'
-                                : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                              'rounded-md px-3 py-2 text-sm font-medium'
-                            )}
-                            aria-current={item.current ? 'page' : undefined}
-                          >
-                            {item.name}
-                          </a>
+                          <Link legacyBehavior href={item.href}  >
+                            <a
+                              key={item.name}
+                              href={item.href}
+                              onClick={item.onClick}
+                              className={classNames(
+                                item.current
+                                  ? 'bg-gray-900 text-white'
+                                  : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                                'rounded-md px-3 py-2 text-sm font-medium'
+                              )}
+                              aria-current={item.current ? 'page' : undefined}
+                            >
+                              {item.name}
+                            </a>
+                          </Link>
                         )
                       }
                     })}
@@ -122,6 +123,7 @@ export default function Header() {
                             {({ active }) => (
                               <a
                                 href={item.href}
+                                onClick={item.onClick}
                                 className={classNames(
                                   active ? 'bg-gray-100' : '',
                                   'block px-4 py-2 text-sm text-gray-700'
@@ -137,6 +139,7 @@ export default function Header() {
                   </Menu>
                 </div>
               </div>
+              
               ) : (
                 <></>
               )}
@@ -212,25 +215,6 @@ export default function Header() {
   );
 }
 
-//@ts-ignore
-export const getServerSideProps: GetServerSideProps = async (
-  context: GetServerSidePropsContext
-) => {
-  const session = await getSession({ req: context.req });
-
-  /*if (!session) {
-    return {
-      redirect: {
-        destination: '/',
-        permananet: false,
-      },
-    };
-  }*/
-
-  return {
-    props: { session },
-  };
-};
 
 Header.defaultProps = {
   title: "Mi sitio web con Next",
