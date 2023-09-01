@@ -21,7 +21,7 @@ export default function Movies({ movies }) {
 
 export async function getStaticProps() {
   
-  const res = await fetch("http://localhost:3000/films.json", {
+  const res = await fetch("/films.json", {
     method: "GET",
     headers: {
       "Content-type": "application/json",
