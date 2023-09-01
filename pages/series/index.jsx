@@ -22,7 +22,7 @@ export default function Series({ series }) {
 
 export async function getStaticProps() {
   
-  const res = await fetch("/films.json", {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/films.json`, {
     method: "GET",
     headers: {
       "Content-type": "application/json",
